@@ -1,4 +1,4 @@
-package ui.register;
+package ui.main;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class Test extends Application {
     public void start(Stage primaryStage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("signUp.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main.fxml"));
         AnchorPane pane = fxmlLoader.load();
         Scene scene = new Scene(pane,500,300);
         primaryStage.setScene(scene);
