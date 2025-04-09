@@ -1,10 +1,16 @@
 package ui.main;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.TableColumn;
 
 public class mainControler {
+    @FXML
+    private TableColumn changingQuintity;
+    @FXML
+    private Button submitPurchaseButton;
     @FXML
     private Button firstHour;
 
@@ -45,4 +51,6 @@ public class mainControler {
     public void chooseEightHour(){}
     public void confirmBooking(){}
 
+    public void ConfirmPurchase() {
+    }
 }
