@@ -26,7 +26,7 @@
                           </columns>
                         </TableView>
                         <TextField layoutX="354.0" layoutY="330.0" promptText="total price" />
-                        <Button fx:id="submitPurchaseButton" layoutX="528.0" layoutY="332.0" onAction="#ConfirmPurchase" mnemonicParsing="false" text="Submit" />
+                        <Button fx:id="submitPurchaseButton" layoutX="528.0" layoutY="332.0" mnemonicParsing="false" text="Submit" />
                      </children>
                   </AnchorPane>
               </content>
