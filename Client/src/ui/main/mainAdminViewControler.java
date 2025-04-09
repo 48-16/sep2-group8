@@ -1,16 +1,10 @@
 package ui.main;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableColumn;
 
-public class mainControler {
-    @FXML
-    private TableColumn changingQuintity;
-    @FXML
-    private Button submitPurchaseButton;
+public class mainAdminViewControler {
     @FXML
     private Button firstHour;
 
@@ -34,9 +28,12 @@ public class mainControler {
 
     @FXML
     private Button EightHour;
-
     @FXML
-    private Button ConfirmBooking;
+    private Button DeleteDay;
+    @FXML
+    private Button DeleteTime;
+    @FXML
+    private Button CancelApointment;
 
     @FXML
     private DatePicker datePicker;
@@ -49,8 +46,8 @@ public class mainControler {
     public void chooseSixthHour(){}
     public void chooseSeventhHour(){}
     public void chooseEightHour(){}
-    public void confirmBooking(){}
+    public void DeleteDay(){}
+    public void DeleteTime(){}
+    public void DeleteApointment(){}
 
-    public void ConfirmPurchase() {
-    }
 }
