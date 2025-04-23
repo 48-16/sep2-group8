@@ -1,12 +1,12 @@
 package ui.main;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 
-public class mainControler {
+public class mainViewUserController
+{
     @FXML
     private TableColumn changingQuintity;
     @FXML
