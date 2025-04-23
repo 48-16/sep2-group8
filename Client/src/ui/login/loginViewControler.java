@@ -9,18 +9,19 @@ import startup.ViewType;
 public class loginViewControler
 {
 
-
   @FXML private TextField emailField;
   @FXML private TextField passwordField;
   @FXML private Button loginButton;
   @FXML private Button signupButton;
   private final loginViewModel viewModel;
   private final ViewHandler handler;
+
   public loginViewControler(loginViewModel viewModel)
   {
     this.viewModel = viewModel;
     handler = new ViewHandler();
   }
+
   public void initialize()
   {
     emailField.textProperty().bind(viewModel.getEmailProperty());

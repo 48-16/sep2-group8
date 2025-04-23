@@ -1,6 +1,5 @@
 package ui.login;
 
-
 import startup.ViewHandler;
 import dtos.user.UserDataDto;
 import dtos.auth.LoginRequest;
@@ -16,9 +15,7 @@ public class loginViewModel
 {
   private final StringProperty emailProperty = new SimpleStringProperty();
   private final StringProperty passwordProperty = new SimpleStringProperty();
-  private final BooleanProperty disableLoginButton = new SimpleBooleanProperty(
-      true);
-
+  private final BooleanProperty disableLoginButton = new SimpleBooleanProperty(true);
   private final authenticationClient authService;
 
   public loginViewModel(authenticationClient authService)
@@ -47,20 +44,30 @@ public class loginViewModel
   {
     boolean disable =
         emailProperty.get() == null || emailProperty.get().isEmpty()
-            || passwordProperty.get() == null || passwordProperty.get().isEmpty();
+            || passwordProperty.get() == null || passwordProperty.get()
+            .isEmpty();
     disableLoginButton.set(disable);
   }
-  public void login(){
-    LoginRequest loginRequest = new LoginRequest(emailProperty.get(),passwordProperty.get());
-    try{
-        UserDataDto user = authService.login(loginRequest);
-        if(user.admin()){
-          ViewHandler.show(ViewType.ADMIN);
-        } else {
-          ViewHandler.show(ViewType.USER);
-        }
 
-    } catch (Exception e){
+  public void login()
+  {
+    LoginRequest loginRequest = new LoginRequest(emailProperty.get(),
+        passwordProperty.get());
+    try
+    {
+      UserDataDto user = authService.login(loginRequest);
+      if (user.admin())
+      {
+        ViewHandler.show(ViewType.ADMIN);
+      }
+      else
+      {
+        ViewHandler.show(ViewType.USER);
+      }
+
+    }
+    catch (Exception e)
+    {
 
     }
   }
