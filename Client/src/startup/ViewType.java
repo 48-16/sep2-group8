@@ -4,5 +4,6 @@ public enum ViewType
 {
   ADMIN,
   USER,
-  REGISTER
+  REGISTER,
+  LOGIN
 }
