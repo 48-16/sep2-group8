@@ -3,7 +3,14 @@ package ui.main;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import networking.shop.shopClient;
 import utils.ErrorPopUp;
+import model.product;
+import model.price;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,8 +41,21 @@ public class mainAdminViewControler {
     private Button CancelApointment;
     @FXML
     private DatePicker datePicker;
+    @FXML
+    private TableView<product> productTable;
+    @FXML
+    private TableColumn<product, String> nameColumn;
+    @FXML
+    private TableColumn<product, Integer> quantityColumn;
+    @FXML
+    private Button addNewProductButton;
+    @FXML
+    private TextField newProductNameField;
+    @FXML
+    private TextField newProductQuantityField;
 
     private final mainViewAdminModel viewModel;
+    private final ShopModel shopModel;
     private Map<String, Button> timeButtons = new HashMap<>();
     private String selectedTimeSlot = null;
     private ErrorPopUp errorPopUp = new ErrorPopUp();
@@ -44,8 +64,9 @@ public class mainAdminViewControler {
     private static final String BOOKED_STYLE = "-fx-background-color: #FFA500; -fx-text-fill: white;";
     private static final String SELECTED_STYLE = "-fx-background-color: #2196F3; -fx-text-fill: white;";
 
-    public mainAdminViewControler(mainViewAdminModel viewModel) {
+    public mainAdminViewControler(mainViewAdminModel viewModel, shopClient shopService) {
         this.viewModel = viewModel;
+        this.shopModel = new ShopModel(shopService);
     }
 
     public void initialize() {
@@ -60,7 +81,7 @@ public class mainAdminViewControler {
 
         datePicker.valueProperty().bindBidirectional(viewModel.getSelectedDateProperty());
 
-        datePicker.valueProperty().addListener((obs, oldDate, newDate) -> {
+        datePicker.valueProperty().addListener((Observable, oldDate, newDate) -> {
             if (newDate != null) {
                 updateTimeSlotButtons();
                 clearSelectedTimeSlot();
@@ -69,6 +90,10 @@ public class mainAdminViewControler {
 
         DeleteTime.setDisable(true);
         CancelApointment.setDisable(true);
+
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("productName"));
+        quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        productTable.setItems(shopModel.getProducts());
     }
 
     private void updateTimeSlotButtons() {
@@ -99,7 +124,6 @@ public class mainAdminViewControler {
 
     private void selectTimeSlot(String timeSlot, Button button) {
         if (selectedTimeSlot != null) {
-            // Reset previously selected button
             Button prevButton = timeButtons.get(selectedTimeSlot);
             if (!viewModel.isTimeSlotAvailable(selectedTimeSlot)) {
                 prevButton.setStyle(BOOKED_STYLE);
@@ -196,6 +220,33 @@ public class mainAdminViewControler {
         if (success) {
             updateTimeSlotButtons();
             clearSelectedTimeSlot();
+        }
+    }
+
+    @FXML
+    public void addNewProduct() {
+        String name = newProductNameField.getText();
+        String quantityStr = newProductQuantityField.getText();
+
+        if (name == null || name.isEmpty()) {
+            errorPopUp.show("Error", "Please enter a product name");
+            return;
+        }
+
+        try {
+            int quantity = Integer.parseInt(quantityStr);
+            if (quantity <= 0) {
+                errorPopUp.show("Error", "Quantity must be greater than 0");
+                return;
+            }
+
+            shopModel.addNewProduct(name, quantity);
+            productTable.refresh();
+            
+            newProductNameField.clear();
+            newProductQuantityField.clear();
+        } catch (NumberFormatException e) {
+            errorPopUp.show("Error", "Please enter a valid quantity");
         }
     }
 }

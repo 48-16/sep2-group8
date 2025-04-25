@@ -4,7 +4,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import networking.shop.shopClient;
 import utils.ErrorPopUp;
+import model.product;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +16,9 @@ import java.util.Map;
 public class mainViewUserController
 {
   @FXML private Button addToCartButton;
-  @FXML private TableColumn changingQuintity;
+  @FXML private TableColumn<product, String> nameColumn;
+  @FXML private TableColumn<product, Integer> quantityColumn;
+  @FXML private TableView<product> productTable;
   @FXML private Button submitPurchaseButton;
   @FXML private Button firstHour;
   @FXML private Button SecondHour;
@@ -26,6 +32,7 @@ public class mainViewUserController
   @FXML private DatePicker datePicker;
 
   private final mainViewUserModel viewModel;
+  private final ShopModel shopModel;
   private Map<String, Button> timeButtons = new HashMap<>();
   private String selectedTimeSlot = null;
   private ErrorPopUp errorPopUp = new ErrorPopUp();
@@ -35,9 +42,11 @@ public class mainViewUserController
   private static final String SELECTED_STYLE = "-fx-background-color: #2196F3; -fx-text-fill: white;";
   private static final String DEFAULT_STYLE = "";
 
-  public mainViewUserController(mainViewUserModel viewModel)
+  public mainViewUserController(mainViewUserModel viewModel,
+      shopClient shopService)
   {
     this.viewModel = viewModel;
+    this.shopModel = new ShopModel(shopService);
   }
 
   public void initialize()
@@ -63,8 +72,31 @@ public class mainViewUserController
     });
 
     ConfirmBooking.setDisable(true);
+
+    nameColumn.setCellValueFactory(new PropertyValueFactory<>("productName"));
+    quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+    productTable.setItems(shopModel.getProducts());
   }
-  public void addToCart(){}
+
+  @FXML public void addToCart()
+  {
+    product selectedProduct = productTable.getSelectionModel()
+        .getSelectedItem();
+    if (selectedProduct == null)
+    {
+      errorPopUp.show("Error", "Please select a product");
+      return;
+    }
+
+    shopModel.addToCart(selectedProduct.getProductName(), 1);
+    productTable.refresh();
+  }
+
+  @FXML public void ConfirmPurchase()
+  {
+    shopModel.confirmPurchase();
+    productTable.refresh();
+  }
 
   private void updateTimeSlotButtons()
   {
@@ -171,9 +203,5 @@ public class mainViewUserController
       clearSelectedTimeSlot();
       updateTimeSlotButtons();
     }
-  }
-
-  @FXML public void ConfirmPurchase()
-  {
   }
 }

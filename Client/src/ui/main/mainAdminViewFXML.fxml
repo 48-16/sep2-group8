@@ -7,6 +7,7 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.main.mainAdminViewControler">
@@ -17,14 +18,15 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView prefHeight="330.0" prefWidth="600.0">
+                        <TableView fx:id="productTable" prefHeight="330.0" prefWidth="600.0">
                           <columns>
-                            <TableColumn prefWidth="376.0" text="Name" />
-                            <TableColumn minWidth="0.0" prefWidth="105.0" text="Quanity at storage" />
-                              <TableColumn fx:id="changingQuintity" prefWidth="117.0" text="Actions" />
+                            <TableColumn fx:id="nameColumn" prefWidth="376.0" text="Name" />
+                            <TableColumn fx:id="quantityColumn" minWidth="0.0" prefWidth="105.0" text="Quantity in storage" />
                           </columns>
                         </TableView>
-                        <Button layoutX="479.0" layoutY="332.0" mnemonicParsing="false" text="add new product" />
+                        <TextField fx:id="newProductNameField" layoutX="242.0" layoutY="332.0" promptText="Product Name" />
+                        <TextField fx:id="newProductQuantityField" layoutX="242.0" layoutY="362.0" promptText="Quantity" />
+                        <Button fx:id="addNewProductButton" layoutX="415.0" layoutY="347.0" mnemonicParsing="false" onAction="#addNewProduct" text="Add Product" />
                      </children>
                   </AnchorPane>
               </content>
